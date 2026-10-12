@@ -1,37 +1,46 @@
 {
-  "blackFrames": [],
-  "continuousPlaybackReviewed": false,
-  "duration": 8,
-  "styles": [
-    "dark",
-    "paper"
+  "doodles": [
+    "phone-mirror",
+    "notes",
+    "route-activation"
   ],
   "fps": 30,
-  "version": "0.4.0",
-  "kind": "synthetic-renderer-example",
-  "presenter": "single-geometric-stand-in",
-  "images": [
-    {
-      "file": "docs/assets/current-demo/title.png",
-      "sha256": "591934574cacbf9f8b74f553ee8d4a014180b958750bf11470790956c5372ae7"
-    },
-    {
-      "file": "docs/assets/current-demo/card.png",
-      "sha256": "d22b286270d723bb2d7175d01351d87b7e53c6459be9ae67f60f33f237b7633e"
-    },
-    {
-      "file": "docs/assets/current-demo/flow.png",
-      "sha256": "fc74bd567ad9efd014027ead242de14a5da1503bbde76701e06989790f76bec0"
-    },
-    {
-      "file": "docs/assets/current-demo/paper.png",
-      "sha256": "f5e6d935573b9cb0440575ed72abe21e198db54da20b68025225df4ea20f7297"
-    }
-  ],
-  "fullDecode": "PASS",
   "layouts": [
     "title",
     "card",
     "flow"
-  ]
+  ],
+  "blackFrames": [],
+  "presenter": "single-geometric-stand-in",
+  "images": [
+    {
+      "file": "docs/assets/current-demo/title.png",
+      "sha256": "02a5f47db2b62e7ccc22157f1528492d1920cbd7a410751f8729e7d3193ca472"
+    },
+    {
+      "file": "docs/assets/current-demo/card.png",
+      "sha256": "3494c2b7343cd9b3290b8bf7e958c3abdbbc9889399b3ef0f866a293186b1bac"
+    },
+    {
+      "file": "docs/assets/current-demo/flow.png",
+      "sha256": "4ab95d91fda3ed33559d7fc82677a384725388d8af65d2bc4b5e6c482bfe9cce"
+    },
+    {
+      "file": "docs/assets/current-demo/paper.png",
+      "sha256": "78404249e9ebe8cd87bca4bb3699d8e705c2d37cd4d45063f004e3af5e23882d"
+    },
+    {
+      "file": "docs/assets/current-demo/doodle.png",
+      "sha256": "02a5f47db2b62e7ccc22157f1528492d1920cbd7a410751f8729e7d3193ca472"
+    }
+  ],
+  "version": "0.5.0",
+  "styles": [
+    "dark",
+    "paper"
+  ],
+  "fullDecode": "PASS",
+  "kind": "synthetic-renderer-example",
+  "duration": 8,
+  "continuousPlaybackReviewed": false
 }

@@ -16,6 +16,12 @@ The Agent should write a source-grounded direction file after sentence-level ana
 
 New public-lite jobs require Remotion. Historical V2 storyboards without the `edition` field retain their original renderer; capabilities already published cannot be recalled from Git history. The HyperFrames adapter remains for those historical inputs, without silently dropping public-lite features.
 
+## Semantic doodles
+
+Single-presenter composite jobs support `doodle: {type, label}` inside a direction item. Supported types are `phone-mirror`, `notes`, `agent-output`, `information-overload`, `climb-boulder`, `workstation-balance`, `paper-plane-route`, `route-activation` and `before-after-illustration`. The planner validates the label against the exact spoken cue. The Agent chooses a fitting drawing after reading the source; a drawing count is not a quality target.
+
+Drawing strokes use normalized SVG path lengths, are frame-driven and hold after revealing. Both dark and paper styles supply an explicit contrasting ink. The drawing region is reserved independently of the title, presenter rectangle and subtitle reserve. The visible annotation marks every drawing as a conceptual illustration; it is not a screenshot, evidence asset or a demonstration of real device control. Original-layout and transparent jobs reject this direction field rather than silently discarding it.
+
 ## QA
 
 Eight review frames sample the timeline rather than requiring eight structures. Inspect every layout and presenter treatment actually used at entry, hold and exit, first/last frames, movement, transitions, complete caption text and original face color. Technical checks and full decode do not prove full playback review or user acceptance.

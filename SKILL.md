@@ -41,4 +41,8 @@ Public-lite currently supports 16:9 horizontal input only. SRT-only `--output-mo
 - Two styles and a single presenter are supported. Duplicate presenter windows, multi-window choreography and a full advanced template library are outside the current workflow. Historical V2 files and line illustrations remain readable; consult [V2 structures](references/visual-structures.md) only when maintaining old projects.
 - All animation is frame-driven and seek-safe. No timers, stateful CSS transitions, randomness or playback-dependent state.
 
+## Semantic line drawings
+
+In single-presenter composite jobs, add `doodle: {type, label}` to a direction item when a drawing helps explain that source sentence. Use `phone-mirror`, `notes`, `agent-output` or the six existing line illustrations (`information-overload`, `climb-boulder`, `workstation-balance`, `paper-plane-route`, `route-activation`, `before-after-illustration`). The label must be a literal source excerpt. Use a fitting metaphor, not an arbitrary illustration count. Reserve a separate readable drawing region; do not overlap the person's face, typography or captions. All drawings are labeled as conceptual illustrations, not evidence or actual screenshots. Verify the line reveal and hold at entry, mid-scene and exit.
+
 Read [public-lite boundaries](references/public-lite.md), [gates](references/gates.md) and [visual-quality-gates](references/visual-quality-gates.md). Keep private source media and local job outputs out of the repository.

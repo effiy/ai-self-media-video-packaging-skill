@@ -51,7 +51,7 @@ export const planPublicLite = (input: PlannerInput) => {
     if (layout === 'card') side = side === 'left' ? 'right' : 'left';
     const title = heading(parts[0] ?? cue.text);
     const direction = input.liteDirectionByCue?.[cue.index];
-    if (direction && [...direction.lines, direction.eyebrow ?? ''].some((copy) => copy && !cue.text.includes(copy))) {
+    if (direction && [...direction.lines, direction.eyebrow ?? '', direction.doodle?.label ?? ''].some((copy) => copy && !cue.text.includes(copy))) {
       throw new Error(`Director copy must be a literal excerpt of source cue ${cue.index}`);
     }
     return {
