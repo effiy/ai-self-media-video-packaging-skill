@@ -10,6 +10,7 @@
 |排版|title 开场标题、card 侧边信息卡、flow 两至三个原稿条目的展示|
 |真人镜头|一个连续人物画面在全幅、左右分栏与单窗之间收放；可选1.06倍轻推近|
 |动效|标题逐行遮罩揭示、关键词强调、图文分栏、单窗收放、条目错峰与阅读停留|
+|简笔画|手机镜像、文案收集、Agent输出与六种已有线稿，按语义描线出现并标明“示意”|
 |交付检查|字幕、安全区、连续原声、完整解码、黑帧和文件哈希|
 
 输入采用已经剪好的视频与准确、同步的 SRT。项目不会自动修正口误，也不会根据零散词语编造数字、操作步骤或结论。
@@ -60,6 +61,8 @@ npm run package-video -- --srt INPUT.srt --out RUN --output-mode overlay --width
 
 Agent应先逐句分析语义，并用 `--direction DIRECTION.json` 提炼原句关键词与构图意图。该文件按SRT序号指定 `mode`、`lines`、可选 `eyebrow` 和 `highlight`，每个上屏词必须原样出现在对应原句中。它只描述展示方式，不改字幕、原声或源视频。示例见 [direction.json](examples/current-demo/direction.json)。所有审核阶段保持相同输入和参数。
 
+需要简笔画时，在相应方向条目中加入 `"doodle": {"type": "phone-mirror", "label": "屏幕镜像"}`。标签必须取自该句原稿；图形是概念示意，不是真实设备操作或截图。当前简笔画用于单窗合成MP4，图形区与文字、人物和字幕分开。支持的类型见 [功能与限制](references/public-lite.md)。
+
 ## 检查与限制
 
 ```bash
@@ -89,33 +92,11 @@ npm run verify:public
 
 示例字幕与生成方法见 [示例目录](examples/current-demo/README.md)。
 
-## 历史V2效果记录
+## 当前简笔画示例
 
-<details><summary>展开V2案例截图</summary>
+![手机与电脑镜像简笔画示意](docs/assets/current-demo/doodle.png)
 
-这个已有V2案例为49.273秒、21条SRT，使用8种结构与6套配色。以下截图来自该次成片，展示V2工程的输出；当前CLI使用上面的三种版式。
-
-![真实调用八帧总览](docs/assets/previews/auto-editing-0-contact-sheet.jpg)
-
-![论点与证据](docs/assets/previews/auto-editing-0-01-thesis-and-proof-1.920s.png)
-
-![双侧编辑轨](docs/assets/previews/auto-editing-0-02-editorial-dual-rail-4.269s.png)
-
-![保留口语数值的指标结构](docs/assets/previews/auto-editing-0-03-metric-odometer-6.403s.png)
-
-![命令面板](docs/assets/previews/auto-editing-0-04-command-palette-10.546s.png)
-
-![人物推石上坡的语义简笔画](docs/assets/previews/auto-editing-0-05-semantic-doodle-15.606s.png)
-
-![前后对比](docs/assets/previews/auto-editing-0-06-before-after-scrub-19.564s.png)
-
-![四阶段流程](docs/assets/previews/auto-editing-0-07-four-stage-pipeline-21.501s.png)
-
-![全屏信号路径](docs/assets/previews/auto-editing-0-08-signal-route-26.980s.png)
-
-完整历史证据：[分镜](examples/auto-editing-0/storyboard.json)、[截图manifest](examples/auto-editing-0/preview-manifest.json)。历史进阶语义结构可在 [V2参考](references/visual-structures.md) 查询。
-
-</details>
+此图由当前代码与示例文案生成。首页不再使用旧V2案例截图；真人素材与试看片留在本地，上面的公开示例明确使用合成画面。
 
 感兴趣的朋友欢迎咨询业务微信：nanaya093
 

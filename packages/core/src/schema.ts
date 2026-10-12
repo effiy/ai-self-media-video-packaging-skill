@@ -43,6 +43,8 @@ export const ILLUSTRATION_SCENARIOS = [
   'before-after-illustration',
 ] as const;
 
+export const PUBLIC_DOODLE_TYPES = [...ILLUSTRATION_SCENARIOS, 'phone-mirror', 'notes', 'agent-output'] as const;
+
 const color = z.string().regex(/^#[0-9a-f]{6}$/i, 'Expected a six-digit hex color');
 
 const beatSchema = z.object({
@@ -74,6 +76,7 @@ const beatSchema = z.object({
     lines: z.array(z.string().trim().min(1).max(24)).min(1).max(3),
     eyebrow: z.string().trim().max(24).optional(),
     highlight: z.number().int().min(0).max(2).optional(),
+    doodle: z.object({type: z.enum(PUBLIC_DOODLE_TYPES), label: z.string().trim().min(1).max(24)}).optional(),
   }).optional(),
 }).superRefine((beat, context) => {
   if (beat.content.structure !== beat.structure) {

@@ -3,6 +3,7 @@ import {Video} from '@remotion/media';
 import {AbsoluteFill, staticFile, useCurrentFrame} from 'remotion';
 import type {Storyboard, StoryboardBeat} from '../../core/src/schema';
 import type {SrtCue} from '../../core/src/types';
+import {SourceDoodle} from './illustrations/SourceDoodle';
 
 type Rect = {x: number; y: number; w: number; h: number; r: number};
 type Mode = NonNullable<StoryboardBeat['liteDirection']>['mode'];
@@ -61,6 +62,7 @@ export const EditorialPresenterVideo = ({storyboard: s, cues}: {storyboard: Stor
   const sourceScale = Math.max(rect.w / 1920, rect.h / 886) * (1 + focus);
   const videoWidth = 1920 * sourceScale; const videoHeight = 1080 * sourceScale;
   const direction = beat.liteDirection;
+  const doodle = direction?.doodle;
   const lines = direction?.lines ?? (beat.liteLayout === 'flow' ? (beat.liteItems ?? []).map((text) => Array.from(text).slice(0, 24).join('')) : [beat.content.structure === 'thesis-and-proof' ? beat.content.thesis : beat.text]);
   const label = direction?.eyebrow ?? '';
   const cue = cues.find((q) => q.start <= frame / s.fps && q.end > frame / s.fps);
@@ -88,23 +90,30 @@ export const EditorialPresenterVideo = ({storyboard: s, cues}: {storyboard: Stor
       <span style={{color: mode === 'focus' || mode === 'closing' ? '#FFFFFF' : c.muted}}>{String(index + 1).padStart(2, '0')} / {String(s.beats.length).padStart(2, '0')}</span>
       <span style={{color: c.main}}>{label}</span>
     </div>
-    {mode === 'process' ? <div style={{...textStyle, left: 120, top: 226, width: 1000}}>
+    {mode === 'process' ? <div style={{...textStyle, left: 120, top: doodle ? 170 : 226, width: 1000}}>
       <div style={{height: 4, width: 130 * ready, background: c.main, marginBottom: 32}}/>
       {lines.map((text, i) => {
         const k = out((local - s.fps * (.3 + i * .14)) / (s.fps * .36));
         return <div key={i} style={{display: 'flex', alignItems: 'center', gap: 32, borderBottom: `1px solid ${c.line}`,
-          padding: '26px 0', opacity: k, transform: `translateX(${(1 - k) * -40}px)`}}>
+          padding: doodle ? '14px 0' : '26px 0', opacity: k, transform: `translateX(${(1 - k) * -40}px)`}}>
           <span style={{fontSize: 24, color: c.sub}}>0{i + 1}</span>
-          <div style={{fontSize: fontSize(text, 820, 100), fontWeight: 900, lineHeight: 1.22, whiteSpace: 'nowrap', color: i === (direction?.highlight ?? lines.length - 1) ? c.main : c.ink}}>{text}</div>
+          <div style={{fontSize: fontSize(text, 820, doodle ? 82 : 100), fontWeight: 900, lineHeight: 1.22, whiteSpace: 'nowrap', color: i === (direction?.highlight ?? lines.length - 1) ? c.main : c.ink}}>{text}</div>
         </div>;
       })}
-    </div> : <div style={{...textStyle, left: x, top: mode === 'closing' ? 640 : mode === 'focus' ? 230 : 285,
+    </div> : <div style={{...textStyle, left: x, top: mode === 'closing' ? (doodle ? 230 : 640) : mode === 'focus' ? 230 : doodle ? 190 : 285,
       ...(mode === 'focus' || mode === 'closing' ? {background: `${c.bg}ED`, padding: 30, borderLeft: `4px solid ${c.main}`, borderRadius: '0 16px 16px 0'} : {})}}>
       {label && <div style={{fontSize: 24, color: c.sub, marginBottom: 28, letterSpacing: '.04em'}}>{label}</div>}
-      <Emphasis lines={lines} highlight={direction?.highlight ?? lines.length - 1} width={width} size={mode === 'focus' || mode === 'closing' ? 74 : 132}
+      <Emphasis lines={lines} highlight={direction?.highlight ?? lines.length - 1} width={width} size={mode === 'focus' || mode === 'closing' ? 74 : doodle ? 112 : 132}
         local={local} fps={s.fps} color={c.main} ink={c.ink}/>
       <div style={{width: 160 * ready, height: 4, background: c.main, marginTop: 28}}/>
     </div>}
+    {doodle ? <div data-source-doodle={doodle.type} style={{position: 'absolute', zIndex: 3,
+      left: mode === 'hero' ? 984 : 120, top: 590, width: mode === 'focus' || mode === 'closing' ? 540 : mode === 'process' ? 960 : 820,
+      height: 264, opacity: ready, color: c.muted,
+      ...(mode === 'focus' || mode === 'closing' ? {background: `${c.bg}F0`, borderRadius: 16, padding: 12, boxSizing: 'border-box'} : {})}}>
+      <div style={{height: mode === 'focus' || mode === 'closing' ? 210 : 235}}><SourceDoodle type={doodle.type} progress={out((local - s.fps * .48) / (s.fps * .55))} accent={c.sub} ink={c.ink}/></div>
+      <div style={{fontSize: 20, textAlign: 'center', marginTop: 7}}>{doodle.label} · 简笔画示意</div>
+    </div> : null}
     <div style={{position: 'absolute', left: 96, right: 96, top: 914, height: 2, background: c.line, zIndex: 4}}>
       <div style={{height: '100%', width: `${clamp(frame / (Math.ceil(s.duration * s.fps) - 1)) * 100}%`, background: c.main}}/>
     </div>

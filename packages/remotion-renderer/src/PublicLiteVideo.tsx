@@ -61,6 +61,7 @@ export const PublicLiteVideo = ({storyboard: s, cues, overlayOnly}: {storyboard:
   const frame = useCurrentFrame(); const c = palette(s.publicStyle === 'paper'); const active = activeAt(s, frame);
   if (s.litePresenter && !overlayOnly) return <EditorialPresenterVideo storyboard={s} cues={cues}/>;
   if (s.litePresenter && overlayOnly) throw new Error('Presenter layout requires composite output');
+  if (s.beats.some((beat) => beat.liteDirection?.doodle)) throw new Error('Semantic doodles require single-presenter composition');
   if (overlayOnly && s.liteCamera) throw new Error('Source camera motion requires composite output');
   const redrawBurned = !overlayOnly && s.captionsMode === 'burned-in' && (s.liteCamera || active?.liteLayout === 'title' || active?.liteLayout === 'flow');
   if (redrawBurned && !cues.length) throw new Error('Public-lite composite requires SRT cues to preserve covered burned-in subtitles');

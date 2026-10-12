@@ -3,8 +3,20 @@ import {describe, expect, it} from 'vitest';
 import {ILLUSTRATION_SCENARIOS} from '../../core/src/schema';
 import {illustrationRegistry} from '../src/illustrations';
 import {SemanticDoodle} from '../src/illustrations/SemanticDoodle';
+import {SourceDoodle} from '../src/illustrations/SourceDoodle';
+import {PUBLIC_DOODLE_TYPES} from '../../core/src/schema';
 
 describe('illustrationRegistry', () => {
+  it('supports new source diagrams and legacy drawings with normalized strokes and selected ink', () => {
+    for (const type of PUBLIC_DOODLE_TYPES) {
+      const markup = renderToStaticMarkup(<SourceDoodle type={type} progress={.5} accent="#58E1FF" ink="#F6F7FF"/>);
+      expect(markup).toContain('stroke="#F6F7FF"');
+      expect(markup).toContain('pathLength="1"');
+      expect(markup).toContain('stroke-dashoffset:0.5');
+      expect(markup).toBe(renderToStaticMarkup(<SourceDoodle type={type} progress={.5} accent="#58E1FF" ink="#F6F7FF"/>));
+      expect(markup).not.toMatch(/<image|<text/);
+    }
+  });
   it('renders six deterministic transparent line illustrations', () => {
     expect(Object.keys(illustrationRegistry).sort()).toEqual([...ILLUSTRATION_SCENARIOS].sort());
     for (const name of ILLUSTRATION_SCENARIOS) {

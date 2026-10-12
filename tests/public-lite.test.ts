@@ -17,6 +17,15 @@ const input = {
 };
 
 describe('public-lite product boundary', () => {
+  it('keeps semantic doodle labels traceable to the spoken source', () => {
+    const cues = [{index: 1, start: 0, end: 4, text: '通过手机与电脑的屏幕镜像完成展示'}];
+    const plan = planStoryboard({...input, cues, probe: {...input.probe, duration: 4}, litePresenter: true,
+      liteDirectionByCue: {1: {mode: 'split', lines: ['屏幕镜像'], doodle: {type: 'phone-mirror', label: '屏幕镜像'}}}});
+    expect(plan.beats[0].liteDirection?.doodle?.type).toBe('phone-mirror');
+    expect(() => assertDirectorPlan(plan)).not.toThrow();
+    expect(() => planStoryboard({...input, cues, probe: {...input.probe, duration: 4}, litePresenter: true,
+      liteDirectionByCue: {1: {mode: 'split', lines: ['屏幕镜像'], doodle: {type: 'phone-mirror', label: '未经说明的自动操作'}}}})).toThrow(/literal excerpt/);
+  });
   it('rejects directed claims absent from the supplied source', () => {
     expect(() => planStoryboard({...input, litePresenter: true, liteDirectionByCue: {1: {mode: 'hero', lines: ['不存在的业务结论']}}})).toThrow(/literal excerpt/);
   });

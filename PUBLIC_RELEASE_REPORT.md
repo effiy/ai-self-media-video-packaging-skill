@@ -1,4 +1,14 @@
-# Version 0.4.0 verification
+# Version 0.5.0 verification
+
+## Current additions
+
+- Source-grounded semantic line drawings are available in single-presenter composition. Three new diagrams and the six existing illustrations share the same frame-driven SVG pipeline, normalized drawing progress and explicit ink for dark/paper styles.
+- README no longer presents old V2 screenshots as homepage examples. Current public screenshots are generated from the reproducible synthetic example and labeled accordingly.
+- 114 tests in 17 files and TypeScript checks passed. Current synthetic and real local preview outputs pass full decode and black-frame checks.
+- The local talking-head preview uses phone mirroring, note collection and Agent-output diagrams without changing the continuous source audio or SRT. Entry/hold/exit stills are checked for the added drawing regions; full playback and user acceptance are recorded separately.
+- Preview SHA-256: `74A24D55C465DCCC16FD152BE0036C883CD08D40A44E5D09D9F23516A66A6936`.
+
+## Previous version 0.4.0 verification
 
 ## Current behavior
 

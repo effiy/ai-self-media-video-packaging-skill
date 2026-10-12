@@ -4,4 +4,6 @@ export type IllustrationProps = {
   subject?: string;
   action?: string;
   outcome?: string;
+  ink?: string;
+  normalized?: boolean;
 };
