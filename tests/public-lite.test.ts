@@ -16,6 +16,13 @@ const input = {
 };
 
 describe('public-lite product boundary', () => {
+  it('preserves short mixed-language headlines and never slices an English word', () => {
+    const headline = '这个开发助手现在可以连接你的iPhone';
+    const plan = planStoryboard({...input, cues: [{index: 1, start: 0, end: 4, text: headline}], probe: {...input.probe, duration: 4}});
+    expect(plan.beats[0].content).toMatchObject({thesis: headline});
+    const long = planStoryboard({...input, cues: [{index: 1, start: 0, end: 4, text: '接口配置方法需要查看最新版BrowserAutomationModule'}], probe: {...input.probe, duration: 4}});
+    expect(long.beats[0].content).toMatchObject({thesis: '接口配置方法需要查看最新版…'});
+  });
   it('keeps long source items readable and above the caption reserve', () => {
     const text = '风险'.repeat(40);
     const font = liteFlowFontSize(text, 3);

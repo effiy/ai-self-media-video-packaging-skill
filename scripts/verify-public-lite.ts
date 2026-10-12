@@ -49,7 +49,9 @@ try {
     sourceVideo: 'input.mp4', captionsMode: 'burned-in', edition: 'public-lite', publicStyle: 'paper', liteCamera: true});
   const paperProps = {storyboard: paper, cues, overlayOnly: false};
   const paperComposition = await selectComposition({serveUrl, id: 'VideoPackaging', inputProps: paperProps, puppeteerInstance: browser});
-  await renderStill({serveUrl, composition: paperComposition, inputProps: paperProps, frame: Math.min(Math.round(plan.fps * 2), paperComposition.durationInFrames - 1),
+  const paperBeat = paper.beats.find((beat) => beat.liteLayout === 'card') ?? paper.beats[0];
+  const paperFrame = Math.round((paperBeat.start + (paperBeat.end - paperBeat.start) * .6) * paper.fps);
+  await renderStill({serveUrl, composition: paperComposition, inputProps: paperProps, frame: Math.min(paperFrame, paperComposition.durationInFrames - 1),
     output: join(out, 'paper.png'), imageFormat: 'png', chromiumOptions, puppeteerInstance: browser});
   await renderMedia({serveUrl, composition, inputProps, outputLocation: output, codec: 'h264', crf: 18,
     concurrency: 2, chromiumOptions, puppeteerInstance: browser,

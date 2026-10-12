@@ -1,20 +1,20 @@
-# AI Self-Media Video Packaging Skill · 公开精简版
+# AI Self-Media Video Packaging Skill
 
-以学员版的工作方法为基础，保留可用的语义包装与交付检查，简化视觉表现。当前新作业默认使用 `public-lite`，目标是基础、清楚、稳定，不复制学员版的完整表现能力。
+这是我创建的 AI 口播视频包装项目：把视频与对应 SRT 转成可审阅的分镜方案，再用 Remotion 生成带标题、侧卡和流程信息的成片。适合 AI 自媒体讲解、知识分享和操作说明，保留原声与字幕，并检查输出是否可以完整解码。
 
-## 能力边界
+## 可以做什么
 
-|能力|公开精简版|学员版保留|
-|---|---|---|
-|配色|dark、paper 两套基础配色|完整科技艺术配色系统|
-|排版|title 标题、card 侧卡、flow 简单流程|丰富分屏、错位双窗、多窗口组合|
-|真人镜头|可选1.06倍轻推近与回落|更丰富的收窗、缩放和画面接力|
-|动效|淡入、轻位移、基础错峰|复杂编排、空间变化、细节动效|
-|质量|准确字幕、人物安全、连续原声、完整解码与哈希检查|同样保证基础质量|
+|功能|说明|
+|---|---|
+|配色|dark 深色、paper 浅色；每条视频保持统一风格|
+|排版|title 开场标题、card 侧边信息卡、flow 两至三个原稿条目的展示|
+|真人镜头|可选1.06倍轻推近与回落，默认不缩放|
+|动效|淡入、轻位移、基础错峰|
+|交付检查|字幕、安全区、连续原声、完整解码、黑帧和文件哈希|
 
-“70%左右”是产品定位，不能精确量化，也不是已经测出的效果评分。差异通过能力数量和表现复杂度体现，不通过错字、遮脸、卡顿或压低清晰度体现。私有学员模板、安装包、真实源视频和SRT不随本仓库发布。
+输入采用已经剪好的视频与准确、同步的 SRT。项目不会自动修正口误，也不会根据零散词语编造数字、操作步骤或结论。
 
-GitHub旧版本已经公开的代码仍在历史中。历史V2项目保留读取兼容；新CLI作业固定使用公开精简版，历史截图不能作为本版效果证据。
+当前 CLI 使用三版式工作流，内部标识为 `public-lite`。已有 V2 工程保留读取兼容；下面的当前示例与 V2 案例分别标明来源。
 
 ## 前期素材准备
 
@@ -33,7 +33,7 @@ GitHub旧版本已经公开的代码仍在历史中。历史V2项目保留读取
 
 ## 安装与使用
 
-需要Node.js 20+、FFmpeg和ffprobe。当前公开精简版只支持16:9横屏输入，透明输出也使用16:9画布。
+需要Node.js 20+、FFmpeg和ffprobe。当前支持16:9横屏输入，透明输出也使用16:9画布。
 
 ```bash
 git clone https://github.com/zhouyuechuan2025-ui/ai-self-media-video-packaging-skill.git
@@ -56,7 +56,7 @@ npm run package-video -- --video INPUT.mp4 --srt INPUT.srt --out RUN --output-mo
 npm run package-video -- --srt INPUT.srt --out RUN --output-mode overlay --width 1920 --height 1080 --fps 30
 ```
 
-所有阶段可用 `--style paper`。需要基础真人缩放时，在合成MP4的每条命令中添加 `--presenter-motion subtle`，默认 `off`。透明输出不包含真人原片，所以不支持这个参数。新公开版只支持Remotion；HyperFrames仅保留历史适配器兼容。
+所有阶段可用 `--style paper`。需要真人缩放时，在合成MP4的每条命令中添加 `--presenter-motion subtle`，默认 `off`。透明输出不包含真人原片，所以不支持这个参数。当前工作流使用Remotion；HyperFrames适配器用于维护已有V2工程。
 
 ## 检查与限制
 
@@ -71,13 +71,27 @@ npm run verify:public
 
 居中人物使用左右安全区，底部18%预留字幕；全屏标题与流程使用完全不透明底色。三种版式不需要凑八种结构，长片也应按语义使用基础版式。两套风格逐片统一，标题取原稿词语，超长句保持完整字幕并缩短强调词。
 
-详细规则：[公开版边界](references/public-lite.md)、[审核阶段](references/gates.md)、[画面检查](references/visual-quality-gates.md)。
+详细规则：[功能与限制](references/public-lite.md)、[审核阶段](references/gates.md)、[画面检查](references/visual-quality-gates.md)。
+
+## 当前示例：三版式与两种配色
+
+以下截图由本项目当前渲染器生成，使用可复现的合成测试画面与示例文案，不是真人口播案例，也不作为外部事实的证据。
+
+![开场标题](docs/assets/current-demo/title.png)
+
+![侧边信息卡](docs/assets/current-demo/card.png)
+
+![原稿条目展示](docs/assets/current-demo/flow.png)
+
+![paper浅色风格](docs/assets/current-demo/paper.png)
+
+示例字幕与生成方法见 [示例目录](examples/current-demo/README.md)。
 
 ## 历史V2效果记录
 
-<details><summary>展开历史截图（非当前精简版）</summary>
+<details><summary>展开V2案例截图</summary>
 
-历史案例为49.273秒、21条SRT，使用V2的8种结构与6套配色。以下已有截图对应旧版成片，原验收数据保持不变；不是本次精简版的验证。
+这个已有V2案例为49.273秒、21条SRT，使用8种结构与6套配色。以下截图来自该次成片，展示V2工程的输出；当前CLI使用上面的三种版式。
 
 ![真实调用八帧总览](docs/assets/previews/auto-editing-0-contact-sheet.jpg)
 

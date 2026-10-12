@@ -1,10 +1,10 @@
-# Public Lite boundary
+# Features and limits
 
 New CLI jobs set `edition: public-lite`. Source timing, continuous voice, caption modes, face protection and artifact QA remain intact. Three layouts are available: `title` (one headline on an opaque background), `card` (one compact presenter-safe side card), and `flow` (two or three literal source items in simple cards, without invented steps).
 
 Styles are `dark` and `paper`, fixed for the entire video. Layered art direction, flexible split screens, offset double windows, presenter-window handoffs, 3D layouts, integrated drawings and complex choreography stay outside the current public product.
 
-The capability split derives from the learner edition's workflow. Its private templates, installer, recordings and subtitles are not redistributed. Approximately 70% is an intended product position, not a computed result. Compare the same source locally; publication does not include private media unless separately authorized.
+The repository contains the Skill, planner, renderers, tests and reproducible examples. Private source media and local job outputs are not redistributed without explicit authorization.
 
 ## Captions and camera
 

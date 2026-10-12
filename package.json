@@ -3,7 +3,7 @@
   "version": "0.3.0",
   "private": true,
   "type": "module",
-  "description": "A public-lite Agent Skill for packaging talking-head videos with three basic Remotion layouts, source captions, and verified delivery.",
+  "description": "An Agent Skill for packaging talking-head videos with three basic Remotion layouts, source captions, and verified delivery.",
   "license": "MIT",
   "engines": {
     "node": ">=20"

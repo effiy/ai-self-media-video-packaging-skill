@@ -5,7 +5,13 @@ import type {SrtCue} from './types';
 const compact = (text: string) => text.replace(/\s+/g, ' ').trim();
 const heading = (text: string): string => {
   const value = compact(text);
-  return Array.from(value).length <= 18 ? value : `${Array.from(value).slice(0, 17).join('')}…`;
+  const chars = Array.from(value);
+  if (chars.length <= 24) return value;
+  let prefix = chars.slice(0, 23).join('');
+  if (/[A-Za-z0-9]/.test(chars[23]) && /[A-Za-z0-9]$/.test(prefix)) {
+    prefix = prefix.replace(/[A-Za-z0-9]+$/, '');
+  }
+  return `${prefix.trimEnd()}…`;
 };
 
 /** Split long cues on punctuation, without introducing numbers or process steps. */

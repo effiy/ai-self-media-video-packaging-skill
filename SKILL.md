@@ -1,11 +1,11 @@
 ---
 name: package-talking-head-video
-description: Use when packaging center-presenter talking-head video plus SRT into a basic public-edition MP4, or SRT into a transparent overlay, with source-based copy and verified delivery.
+description: Use when packaging center-presenter talking-head video plus SRT into an MP4, or SRT into a transparent overlay, with source-based copy and verified delivery.
 ---
 
-# Package Talking-Head Video · Public Lite
+# Package Talking-Head Video
 
-Use the public-lite edition for new jobs: three basic layouts (`title`, `card`, `flow`) and two public styles (`dark`, `paper`). Keep one style per video. Simplify visual capability, not caption accuracy, face safety, original voice, or output checks. Roughly 70% is positioning, not a measured score. No private learner templates or media are bundled.
+Package new jobs with three basic layouts (`title`, `card`, `flow`) and two public styles (`dark`, `paper`). Keep one style per video. Preserve caption accuracy, face safety, original voice, and output checks.
 
 ## Required workflow
 
@@ -41,4 +41,4 @@ Public-lite currently supports 16:9 horizontal input only. SRT-only `--output-mo
 - Semantic palettes, advanced programmatic line illustrations, multi-window layouts and spatial transitions are not new public-lite features. Historical V2 files remain readable; consult [V2 structures](references/visual-structures.md) only when maintaining old projects.
 - All animation is frame-driven and seek-safe. No timers, stateful CSS transitions, randomness or playback-dependent state.
 
-Read [public-lite boundaries](references/public-lite.md), [gates](references/gates.md) and [visual-quality-gates](references/visual-quality-gates.md). Do not copy private learner resources into a public release.
+Read [public-lite boundaries](references/public-lite.md), [gates](references/gates.md) and [visual-quality-gates](references/visual-quality-gates.md). Keep private source media and local job outputs out of the repository.

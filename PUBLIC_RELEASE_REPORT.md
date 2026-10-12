@@ -1,21 +1,21 @@
-# Public-lite 0.3.0 verification
+# Version 0.3.0 verification
 
 ## Current scope
 
-New CLI jobs default to public-lite: three basic layouts (title/card/flow), two styles (dark/paper), optional bounded 1.06x presenter emphasis, original continuous voice, complete source-based captions and artifact verification. No learner multi-window or complex choreography templates were copied. Historical V2 code remains readable and stays accessible in Git history.
+New CLI jobs default to public-lite: three basic layouts (title/card/flow), two styles (dark/paper), optional bounded 1.06x presenter emphasis, original continuous voice, complete source-based captions and artifact verification. Historical V2 code remains readable and stays accessible in Git history.
 
-The approximately 70% positioning is an intended capability split, not a measured aesthetic score or user acceptance.
+Automated checks and sampled frames are engineering evidence; they do not establish user acceptance.
 
 ## Verification performed
 
-- 108 automated tests passed; TypeScript checks, composition build, Skill format and public-file scan passed.
+- 109 automated tests passed; TypeScript checks, composition build, Skill format and public-file scan passed.
 - Refreshed vulnerable transitive dependencies and Vitest to 4.1.11; npm audit reports zero vulnerabilities. Overlay argument tests accept native path separators on Windows and Linux.
-- Real local comparison used the same original video and SRT as the learner delivery, verified against their recorded hashes.
+- A local 39.9-second video job used source video and matching SRT with recorded input hashes.
 - Public-lite output: 1920x1080, 30fps, H.264/AAC, 1197 video frames, 39.914667 seconds, one audio track.
 - Output SHA-256: `43B81A03FDC78799F3ACC318848E71847E3FAF9BE6EC2EC26DD58051A7BEAF5D`.
 - All three layouts were used with one consistent palette. Dark and paper style stills and a 1280x720 still were checked.
 - Full FFmpeg decode passed; no black intervals detected. All layout stills, eight timeline samples and first/last frames were inspected.
-- No full continuous playback review or user acceptance is claimed. Private comparison videos, source files, subtitles and screenshots remain outside the public candidate set.
+- No full continuous playback review or user acceptance is claimed. Private job videos, source files, subtitles and screenshots remain outside the public candidate set.
 
 ## Historical report
 
