@@ -4,43 +4,48 @@
     "notes",
     "route-activation"
   ],
-  "fps": 30,
+  "kind": "synthetic-renderer-example",
+  "version": "0.6.0",
+  "fullDecode": "PASS",
   "layouts": [
     "title",
     "card",
     "flow"
   ],
-  "blackFrames": [],
+  "colorRoles": [
+    "emphasis",
+    "process",
+    "result"
+  ],
   "presenter": "single-geometric-stand-in",
   "images": [
     {
       "file": "docs/assets/current-demo/title.png",
-      "sha256": "02a5f47db2b62e7ccc22157f1528492d1920cbd7a410751f8729e7d3193ca472"
+      "sha256": "5e45455b632014f8a495c12f39f98306aa16d90cd6251ac133cc2d9209f20212"
     },
     {
       "file": "docs/assets/current-demo/card.png",
-      "sha256": "3494c2b7343cd9b3290b8bf7e958c3abdbbc9889399b3ef0f866a293186b1bac"
+      "sha256": "27c41ef0a84faa6280d4fccacbb4f1283fd2f0214b0944acdb481706cea8635c"
     },
     {
       "file": "docs/assets/current-demo/flow.png",
-      "sha256": "4ab95d91fda3ed33559d7fc82677a384725388d8af65d2bc4b5e6c482bfe9cce"
+      "sha256": "d28d631042b2e492fcabf81057ed86d8e8ac18a4939cd88e04a43112e45c2d78"
     },
     {
       "file": "docs/assets/current-demo/paper.png",
-      "sha256": "78404249e9ebe8cd87bca4bb3699d8e705c2d37cd4d45063f004e3af5e23882d"
+      "sha256": "a1485996c0130d100bba1ce90b9621e95f757425ff50d399f0b2a784e6224c63"
     },
     {
       "file": "docs/assets/current-demo/doodle.png",
-      "sha256": "02a5f47db2b62e7ccc22157f1528492d1920cbd7a410751f8729e7d3193ca472"
+      "sha256": "5e45455b632014f8a495c12f39f98306aa16d90cd6251ac133cc2d9209f20212"
     }
   ],
-  "version": "0.5.0",
+  "blackFrames": [],
+  "duration": 8,
+  "continuousPlaybackReviewed": false,
   "styles": [
     "dark",
     "paper"
   ],
-  "fullDecode": "PASS",
-  "kind": "synthetic-renderer-example",
-  "duration": 8,
-  "continuousPlaybackReviewed": false
+  "fps": 30
 }

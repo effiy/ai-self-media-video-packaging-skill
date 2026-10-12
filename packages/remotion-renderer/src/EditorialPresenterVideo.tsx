@@ -34,13 +34,21 @@ const weight = (text: string) => Array.from(text).reduce((n, char) => n + (char.
 const fontSize = (text: string, width: number, maximum: number) => Math.max(20, Math.min(maximum, Math.floor(width / Math.max(1, weight(text)))));
 const font = '"Microsoft YaHei","Noto Sans SC",Arial,system-ui,sans-serif';
 
+export const editorialPalette = (paper: boolean) => paper
+  ? {bg: '#F3F1FA', panel: '#FFFFFF', ink: '#201D32', muted: '#615974', main: '#6342C7', sub: '#007477', result: '#A9431E', line: '#D5CEE5'}
+  : {bg: '#080B16', panel: '#151A2D', ink: '#F6F7FF', muted: '#ADB6CF', main: '#C3ADFF', sub: '#73E4F0', result: '#FFC799', line: '#2B344E'};
+
 const Emphasis = ({lines, highlight, width, size, local, fps, color, ink}: {
   lines: string[]; highlight: number; width: number; size: number; local: number; fps: number; color: string; ink: string;
 }) => <div style={{width}}>{lines.map((text, index) => {
   const k = out((local - fps * (.28 + index * .11)) / (fps * .38));
+  const marker = smooth((local - fps * (.54 + index * .11)) / (fps * .28));
   return <div key={index} style={{overflow: 'hidden', paddingBottom: 12}}>
     <div style={{fontSize: fontSize(text, width, size), fontWeight: 900, lineHeight: 1.2, letterSpacing: '-.035em',
-      color: index === highlight ? color : ink, whiteSpace: 'nowrap', transform: `translateY(${(1 - k) * 108}%)`}}>{text}</div>
+      color: index === highlight ? color : ink, whiteSpace: 'nowrap', transform: `translateY(${(1 - k) * 108}%)`}}>
+      <span style={{position: 'relative', display: 'inline-block'}}>{index === highlight ? <span style={{position: 'absolute', left: -4, right: -4, bottom: '3%', height: '13%',
+        background: `${color}25`, transform: `scaleX(${marker})`, transformOrigin: 'left', borderRadius: 3}}/> : null}<span style={{position: 'relative'}}>{text}</span></span>
+    </div>
   </div>;
 })}</div>;
 
@@ -55,14 +63,16 @@ export const EditorialPresenterVideo = ({storyboard: s, cues}: {storyboard: Stor
   const leave = index === s.beats.length - 1 ? 1 : smooth((duration - local) / (s.fps * .16));
   const ready = out((local - s.fps * .22) / (s.fps * .28)) * leave;
   const paper = s.publicStyle === 'paper';
-  const c = paper ? {bg: '#F3F1FA', panel: '#FFFFFF', ink: '#201D32', muted: '#615974', main: '#6342C7', sub: '#007477', line: '#D5CEE5'}
-    : {bg: '#080B16', panel: '#151A2D', ink: '#F6F7FF', muted: '#ADB6CF', main: '#B7A1FF', sub: '#58E1FF', line: '#2B344E'};
+  const c = editorialPalette(paper);
   const rect = presenterRectAt(s, frame);
   const focus = mode === 'focus' && s.liteCamera ? .06 * Math.min(smooth(local / (s.fps * .4)), smooth((duration - 1 - local) / (s.fps * .4))) : 0;
   const sourceScale = Math.max(rect.w / 1920, rect.h / 886) * (1 + focus);
   const videoWidth = 1920 * sourceScale; const videoHeight = 1080 * sourceScale;
   const direction = beat.liteDirection;
   const doodle = direction?.doodle;
+  const emphasisColor = mode === 'closing' || mode === 'process' ? c.result : c.main;
+  const drawingColor = doodle?.type === 'agent-output' ? c.result : c.sub;
+  const borderDraw = smooth((local - s.fps * .08) / (s.fps * .65));
   const lines = direction?.lines ?? (beat.liteLayout === 'flow' ? (beat.liteItems ?? []).map((text) => Array.from(text).slice(0, 24).join('')) : [beat.content.structure === 'thesis-and-proof' ? beat.content.thesis : beat.text]);
   const label = direction?.eyebrow ?? '';
   const cue = cues.find((q) => q.start <= frame / s.fps && q.end > frame / s.fps);
@@ -71,7 +81,7 @@ export const EditorialPresenterVideo = ({storyboard: s, cues}: {storyboard: Stor
   const width = mode === 'hero' ? 820 : mode === 'focus' || mode === 'closing' ? 500 : 820;
   return <AbsoluteFill style={{width: 1920, height: 1080, right: 'auto', bottom: 'auto', transform: `scale(${s.width / 1920})`,
     transformOrigin: '0 0', background: c.bg, overflow: 'hidden', fontFamily: font, color: c.ink}}>
-    <AbsoluteFill style={{background: `radial-gradient(ellipse at ${75 + Math.sin(frame / 150) * 5}% 20%, ${c.main}20, transparent 58%), radial-gradient(ellipse at 15% 82%, ${c.sub}12, transparent 60%)`}}/>
+    <AbsoluteFill style={{background: `radial-gradient(ellipse at ${75 + Math.sin(frame / 150) * 5}% 20%, ${c.main}20, transparent 58%), radial-gradient(ellipse at 15% 82%, ${c.sub}12, transparent 60%), radial-gradient(ellipse at 92% 82%, ${c.result}0D, transparent 46%)`}}/>
     <svg width="1920" height="886" style={{position: 'absolute', left: 0, top: 0}} aria-hidden>
       {Array.from({length: 13}, (_, i) => <line key={i} x1={i * 160} x2={i * 160} y1="0" y2="886" stroke={c.line} opacity=".3"/>)}
       <path d="M96 660 Q840 110 1824 240" fill="none" stroke={c.main} strokeWidth="1" opacity=".18"/>
@@ -83,36 +93,45 @@ export const EditorialPresenterVideo = ({storyboard: s, cues}: {storyboard: Stor
       <Video src={staticFile(s.source.video)} disallowFallbackToOffthreadVideo
         style={{position: 'absolute', width: videoWidth, height: videoHeight,
           left: (rect.w - videoWidth) / 2, top: -focus * 250, maxWidth: 'none'}}/>
+      <svg width="100%" height="100%" viewBox={`0 0 ${rect.w} ${rect.h}`} style={{position: 'absolute', inset: 0, pointerEvents: 'none', opacity: rect.r / 24 * .65}} aria-hidden>
+        <defs><linearGradient id="presenter-border" x1="0%" y1="0%" x2="100%" y2="100%"><stop stopColor={c.main}/><stop offset="1" stopColor={c.sub}/></linearGradient></defs>
+        <rect x="1.5" y="1.5" width={rect.w - 3} height={rect.h - 3} rx={Math.max(0, rect.r - 1)} fill="none" stroke="url(#presenter-border)" strokeWidth="2.5" pathLength="1"
+          strokeDasharray="1" strokeDashoffset={1 - borderDraw}/>
+      </svg>
     </div>
     <div style={{position: 'absolute', left: 96, right: 96, top: 58, display: 'flex', justifyContent: 'space-between',
       fontSize: 20, letterSpacing: '.12em', color: c.muted, zIndex: 4, opacity: ready,
       textShadow: mode === 'focus' || mode === 'closing' ? '0 2px 10px #000' : undefined}}>
-      <span style={{color: mode === 'focus' || mode === 'closing' ? '#FFFFFF' : c.muted}}>{String(index + 1).padStart(2, '0')} / {String(s.beats.length).padStart(2, '0')}</span>
+      <span style={{color: c.ink, background: `${c.bg}DB`, padding: '7px 14px', borderRadius: 7, border: `1px solid ${c.line}`}}>{String(index + 1).padStart(2, '0')} / {String(s.beats.length).padStart(2, '0')}</span>
       <span style={{color: c.main}}>{label}</span>
     </div>
     {mode === 'process' ? <div style={{...textStyle, left: 120, top: doodle ? 170 : 226, width: 1000}}>
-      <div style={{height: 4, width: 130 * ready, background: c.main, marginBottom: 32}}/>
+      <div style={{height: 4, width: 130 * ready, background: c.result, marginBottom: 26}}/>
       {lines.map((text, i) => {
         const k = out((local - s.fps * (.3 + i * .14)) / (s.fps * .36));
-        return <div key={i} style={{display: 'flex', alignItems: 'center', gap: 32, borderBottom: `1px solid ${c.line}`,
-          padding: doodle ? '14px 0' : '26px 0', opacity: k, transform: `translateX(${(1 - k) * -40}px)`}}>
-          <span style={{fontSize: 24, color: c.sub}}>0{i + 1}</span>
-          <div style={{fontSize: fontSize(text, 820, doodle ? 82 : 100), fontWeight: 900, lineHeight: 1.22, whiteSpace: 'nowrap', color: i === (direction?.highlight ?? lines.length - 1) ? c.main : c.ink}}>{text}</div>
+        const selected = i === (direction?.highlight ?? lines.length - 1);
+        return <div key={i} style={{display: 'flex', alignItems: 'center', gap: 28, border: `1px solid ${c.line}`, borderLeft: `3px solid ${selected ? c.result : c.sub}`,
+          borderRadius: 12, marginBottom: 10, background: selected ? `${c.result}12` : `${c.panel}66`,
+          padding: '12px 18px', opacity: k, transform: `translateX(${(1 - k) * -40}px)`}}>
+          <span style={{fontSize: 20, color: selected ? c.result : c.sub, border: `1px solid ${selected ? c.result : c.sub}55`, borderRadius: 7, padding: '8px 10px'}}>0{i + 1}</span>
+          <div style={{fontSize: fontSize(text, 780, doodle ? 70 : 96), fontWeight: 900, lineHeight: 1.22, whiteSpace: 'nowrap', color: selected ? c.result : c.ink}}>{text}</div>
         </div>;
       })}
     </div> : <div style={{...textStyle, left: x, top: mode === 'closing' ? (doodle ? 230 : 640) : mode === 'focus' ? 230 : doodle ? 190 : 285,
-      ...(mode === 'focus' || mode === 'closing' ? {background: `${c.bg}ED`, padding: 30, borderLeft: `4px solid ${c.main}`, borderRadius: '0 16px 16px 0'} : {})}}>
+      ...(mode === 'focus' || mode === 'closing' ? {background: `${c.bg}ED`, padding: 30, borderLeft: `4px solid ${emphasisColor}`, borderRadius: '0 16px 16px 0'} : {})}}>
       {label && <div style={{fontSize: 24, color: c.sub, marginBottom: 28, letterSpacing: '.04em'}}>{label}</div>}
       <Emphasis lines={lines} highlight={direction?.highlight ?? lines.length - 1} width={width} size={mode === 'focus' || mode === 'closing' ? 74 : doodle ? 112 : 132}
-        local={local} fps={s.fps} color={c.main} ink={c.ink}/>
-      <div style={{width: 160 * ready, height: 4, background: c.main, marginTop: 28}}/>
+        local={local} fps={s.fps} color={emphasisColor} ink={c.ink}/>
+      <div style={{width: 160 * ready, height: 4, background: `linear-gradient(90deg,${emphasisColor},${c.sub})`, marginTop: 28}}/>
     </div>}
     {doodle ? <div data-source-doodle={doodle.type} style={{position: 'absolute', zIndex: 3,
       left: mode === 'hero' ? 984 : 120, top: 590, width: mode === 'focus' || mode === 'closing' ? 540 : mode === 'process' ? 960 : 820,
       height: 264, opacity: ready, color: c.muted,
       ...(mode === 'focus' || mode === 'closing' ? {background: `${c.bg}F0`, borderRadius: 16, padding: 12, boxSizing: 'border-box'} : {})}}>
-      <div style={{height: mode === 'focus' || mode === 'closing' ? 210 : 235}}><SourceDoodle type={doodle.type} progress={out((local - s.fps * .48) / (s.fps * .55))} accent={c.sub} ink={c.ink}/></div>
-      <div style={{fontSize: 20, textAlign: 'center', marginTop: 7}}>{doodle.label} · 简笔画示意</div>
+      <div style={{height: mode === 'focus' || mode === 'closing' ? 210 : 235}}><SourceDoodle type={doodle.type} progress={out((local - s.fps * .48) / (s.fps * .55))}
+        actionProgress={smooth((local - s.fps * .85) / (s.fps * .42))} accent={drawingColor} ink={c.ink}/></div>
+      <div style={{fontSize: 18, textAlign: 'center', marginTop: 5}}><span style={{color: drawingColor, border: `1px solid ${drawingColor}44`, padding: '3px 10px', borderRadius: 6,
+        background: `${c.bg}CE`}}>{doodle.label} · 简笔画示意</span></div>
     </div> : null}
     <div style={{position: 'absolute', left: 96, right: 96, top: 914, height: 2, background: c.line, zIndex: 4}}>
       <div style={{height: '100%', width: `${clamp(frame / (Math.ceil(s.duration * s.fps) - 1)) * 100}%`, background: c.main}}/>

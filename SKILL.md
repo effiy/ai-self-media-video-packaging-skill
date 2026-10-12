@@ -40,6 +40,7 @@ Public-lite currently supports 16:9 horizontal input only. SRT-only `--output-mo
 - Prefer readable 1.6–3.2 seconds where supported by the source; no beat exceeds six seconds. Do not invent layouts to satisfy a template count.
 - Two styles and a single presenter are supported. Duplicate presenter windows, multi-window choreography and a full advanced template library are outside the current workflow. Historical V2 files and line illustrations remain readable; consult [V2 structures](references/visual-structures.md) only when maintaining old projects.
 - All animation is frame-driven and seek-safe. No timers, stateful CSS transitions, randomness or playback-dependent state.
+- Keep a deliberate motion sequence: establish the presenter window, reveal literal keywords, draw a highlight or semantic diagram, then hold. Use purple for emphasis, cyan for process and a small warm accent for results or closing. Do not animate the source person's colors or add repeated motion to compensate for weak content. Process rows must retain room above any drawing region.
 
 ## Semantic line drawings
 

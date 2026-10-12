@@ -7,7 +7,7 @@ import {liteCameraScale, liteFlowFontSize} from '../packages/remotion-renderer/s
 import {buildCompositionPlan} from '../packages/remotion-renderer/src/VideoPackaging';
 import {generateHyperFramesProject} from '../packages/hyperframes-adapter/src/generate';
 import {selectRepresentativeBeats} from '../scripts/lib/artifact-qa';
-import {presenterRectAt} from '../packages/remotion-renderer/src/EditorialPresenterVideo';
+import {editorialPalette, presenterRectAt} from '../packages/remotion-renderer/src/EditorialPresenterVideo';
 
 const input = {
   id: 'public-test', title: 'Public test', edition: 'public-lite' as const,
@@ -17,6 +17,21 @@ const input = {
 };
 
 describe('public-lite product boundary', () => {
+  it('keeps every typography color readable against both stable surfaces', () => {
+    const luminance = (hex: string) => {
+      const values = [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16) / 255).map((v) => v <= .04045 ? v / 12.92 : ((v + .055) / 1.055) ** 2.4);
+      return values[0] * .2126 + values[1] * .7152 + values[2] * .0722;
+    };
+    for (const paper of [false, true]) {
+      const palette = editorialPalette(paper);
+      for (const foreground of [palette.ink, palette.muted, palette.main, palette.sub, palette.result]) {
+        for (const background of [palette.bg, palette.panel]) {
+          const a = luminance(foreground); const b = luminance(background);
+          expect((Math.max(a, b) + .05) / (Math.min(a, b) + .05)).toBeGreaterThanOrEqual(4.5);
+        }
+      }
+    }
+  });
   it('keeps semantic doodle labels traceable to the spoken source', () => {
     const cues = [{index: 1, start: 0, end: 4, text: '通过手机与电脑的屏幕镜像完成展示'}];
     const plan = planStoryboard({...input, cues, probe: {...input.probe, duration: 4}, litePresenter: true,

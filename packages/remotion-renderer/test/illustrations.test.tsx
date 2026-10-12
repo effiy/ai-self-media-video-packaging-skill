@@ -7,6 +7,15 @@ import {SourceDoodle} from '../src/illustrations/SourceDoodle';
 import {PUBLIC_DOODLE_TYPES} from '../../core/src/schema';
 
 describe('illustrationRegistry', () => {
+  it('advances and settles conceptual route indicators without restarting the drawing', () => {
+    const middle = renderToStaticMarkup(<SourceDoodle type="phone-mirror" progress={1} actionProgress={.5} accent="#73E4F0" ink="#F6F7FF"/>);
+    const end = renderToStaticMarkup(<SourceDoodle type="phone-mirror" progress={1} actionProgress={1} accent="#73E4F0" ink="#F6F7FF"/>);
+    expect(middle).toContain('data-doodle-action="source-to-result"');
+    expect(middle).toContain('cx="262"');
+    expect(end).toContain('cx="304"');
+    expect(end).toContain('stroke-dashoffset:0');
+    expect(end).toBe(renderToStaticMarkup(<SourceDoodle type="phone-mirror" progress={1} actionProgress={1} accent="#73E4F0" ink="#F6F7FF"/>));
+  });
   it('supports new source diagrams and legacy drawings with normalized strokes and selected ink', () => {
     for (const type of PUBLIC_DOODLE_TYPES) {
       const markup = renderToStaticMarkup(<SourceDoodle type={type} progress={.5} accent="#58E1FF" ink="#F6F7FF"/>);
