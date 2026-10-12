@@ -67,6 +67,8 @@ const beatSchema = z.object({
   illustration: z
     .object({type: z.enum(ILLUSTRATION_SCENARIOS), label: z.string().min(1).max(32)})
     .optional(),
+  liteLayout: z.enum(['title', 'card', 'flow']).optional(),
+  liteItems: z.array(z.string().trim().min(1).max(80)).max(3).optional(),
 }).superRefine((beat, context) => {
   if (beat.content.structure !== beat.structure) {
     context.addIssue({
@@ -86,6 +88,9 @@ export const StoryboardSchema = z.object({
   width: z.number().int().positive(),
   height: z.number().int().positive(),
   captionsMode: z.enum(['burned-in', 'none', 'generated']),
+  edition: z.literal('public-lite').optional(),
+  publicStyle: z.enum(['dark', 'paper']).optional(),
+  liteCamera: z.boolean().optional(),
   source: z.object({video: z.string().min(1), srt: z.string().optional()}),
   theme: z.object({background: color, foreground: color, accent: color}),
   beats: z.array(beatSchema).min(1),

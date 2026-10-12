@@ -30,11 +30,11 @@ Presenter-safe side surfaces must be content-fit.
 
 ## 4. Stable review frames
 
-Representative stills are selected at 72% of each beat, after the main entry animation but before the exit. A midpoint screenshot is not sufficient because it can capture a half-built layout.
+Public-lite selects eight timeline samples. Check that each sample is readable; if it lands in entry/exit, inspect an additional stable frame of that beat. Also inspect first/last frames and basic camera entry/peak/return. Historical V2 stills are selected at 72% of each beat, after entry but before exit. A single screenshot cannot establish motion quality.
 
 Gate C must include:
 
-1. eight frames from eight distinct semantic structures when the video semantics support them;
+1. eight actual timeline frames for public-lite, covering every basic layout used; historical V2 retains eight distinct semantic structures;
 2. the exact timestamp, structure, presentation mode, and SHA-256 for every frame;
 3. a 4×2 contact sheet built from those exact frames;
 4. manual frame review, recorded as pass/fail for face safety, density, clipping, contrast, semantic fit, and subtitle clearance.

@@ -1,4 +1,4 @@
 interface:
-  display_name: "AI Self-Media Video Packaging"
-  short_description: "Package talking-head video with Remotion or HyperFrames"
-  default_prompt: "Use $package-talking-head-video to inspect my MP4 and SRT, prepare Gate A, and package the approved video with deterministic motion graphics."
+  display_name: "AI Self-Media Video Packaging · Public Lite"
+  short_description: "Basic talking-head packaging: three layouts, two styles"
+  default_prompt: "Use $package-talking-head-video to inspect my MP4 and SRT, prepare Gate A for the public-lite edition, then package the approved video with basic layouts and verified output."
