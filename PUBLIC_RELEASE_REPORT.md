@@ -9,6 +9,7 @@ The approximately 70% positioning is an intended capability split, not a measure
 ## Verification performed
 
 - 108 automated tests passed; TypeScript checks, composition build, Skill format and public-file scan passed.
+- Refreshed vulnerable transitive dependencies and Vitest to 4.1.11; npm audit reports zero vulnerabilities. Overlay argument tests accept native path separators on Windows and Linux.
 - Real local comparison used the same original video and SRT as the learner delivery, verified against their recorded hashes.
 - Public-lite output: 1920x1080, 30fps, H.264/AAC, 1197 video frames, 39.914667 seconds, one audio track.
 - Output SHA-256: `43B81A03FDC78799F3ACC318848E71847E3FAF9BE6EC2EC26DD58051A7BEAF5D`.
