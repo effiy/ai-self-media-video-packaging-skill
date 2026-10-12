@@ -1,0 +1,37 @@
+{
+  "blackFrames": [],
+  "continuousPlaybackReviewed": false,
+  "duration": 8,
+  "styles": [
+    "dark",
+    "paper"
+  ],
+  "fps": 30,
+  "version": "0.4.0",
+  "kind": "synthetic-renderer-example",
+  "presenter": "single-geometric-stand-in",
+  "images": [
+    {
+      "file": "docs/assets/current-demo/title.png",
+      "sha256": "591934574cacbf9f8b74f553ee8d4a014180b958750bf11470790956c5372ae7"
+    },
+    {
+      "file": "docs/assets/current-demo/card.png",
+      "sha256": "d22b286270d723bb2d7175d01351d87b7e53c6459be9ae67f60f33f237b7633e"
+    },
+    {
+      "file": "docs/assets/current-demo/flow.png",
+      "sha256": "fc74bd567ad9efd014027ead242de14a5da1503bbde76701e06989790f76bec0"
+    },
+    {
+      "file": "docs/assets/current-demo/paper.png",
+      "sha256": "f5e6d935573b9cb0440575ed72abe21e198db54da20b68025225df4ea20f7297"
+    }
+  ],
+  "fullDecode": "PASS",
+  "layouts": [
+    "title",
+    "card",
+    "flow"
+  ]
+}

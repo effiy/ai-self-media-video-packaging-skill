@@ -1,3 +1,41 @@
+# Version 0.4.0 verification
+
+## Current behavior
+
+Composite jobs use one continuous presenter video with full-frame emphasis, single-window left/right editorial composition, source-excerpt typography and frame-driven layout transitions. Source captions are redrawn once after cropping the original caption reserve. Original-layout jobs and historical V2 inputs remain readable. Transparent output does not support presenter windows.
+
+## Current verification
+
+- 112 tests in 17 files and TypeScript checks passed.
+- Reproducible 8-second geometric example covers title/card/flow and dark/paper screenshots; no real person is represented by the synthetic source.
+- A 14.5-second local talking-head preview uses source-grounded emphasis and seven timed beats. Output is H.264/AAC, 1920x1080, 30fps, 434 video frames, one audio track.
+- Preview SHA-256: `2DE3B351B8DC443F4EC646D933C749D3F140A1C2E42695F2A7FD43C621F256D0`.
+- Full decode and black-frame checks passed. Scene entry/hold/exit frames and representative timeline frames were inspected. Original media and local preview files remain outside the public repository.
+- Full continuous playback and user acceptance are not claimed.
+
+## Previous version 0.3.0 verification
+
+## Current scope
+
+New CLI jobs default to public-lite: three basic layouts (title/card/flow), two styles (dark/paper), optional bounded 1.06x presenter emphasis, original continuous voice, complete source-based captions and artifact verification. Historical V2 code remains readable and stays accessible in Git history.
+
+Automated checks and sampled frames are engineering evidence; they do not establish user acceptance.
+
+## Verification performed
+
+- 109 automated tests passed; TypeScript checks, composition build, Skill format and public-file scan passed.
+- Refreshed vulnerable transitive dependencies and Vitest to 4.1.11; npm audit reports zero vulnerabilities. Overlay argument tests accept native path separators on Windows and Linux.
+- A local 39.9-second video job used source video and matching SRT with recorded input hashes.
+- Public-lite output: 1920x1080, 30fps, H.264/AAC, 1197 video frames, 39.914667 seconds, one audio track.
+- Output SHA-256: `43B81A03FDC78799F3ACC318848E71847E3FAF9BE6EC2EC26DD58051A7BEAF5D`.
+- All three layouts were used with one consistent palette. Dark and paper style stills and a 1280x720 still were checked.
+- Full FFmpeg decode passed; no black intervals detected. All layout stills, eight timeline samples and first/last frames were inspected.
+- No full continuous playback review or user acceptance is claimed. Private job videos, source files, subtitles and screenshots remain outside the public candidate set.
+
+## Historical report
+
+The following report describes the old release, not the current public-lite output.
+
 # Public release report
 
 ## Scope
