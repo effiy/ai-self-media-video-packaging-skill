@@ -4,6 +4,8 @@ New CLI jobs set `edition: public-lite`. Source timing, continuous voice, captio
 
 Styles are `dark` and `paper`, fixed for the entire video. Single-presenter editorial composition supports full-frame emphasis, left/right split layouts and a bounded single window with frame-driven transitions. Duplicate presenter windows, multi-window choreography, 3D layouts and a full advanced template library are outside this workflow.
 
+The v0.6 refinement assigns purple to keywords, cyan to process and a restrained warm accent to results and closing. Typography colors meet at least 4.5:1 contrast on the two stable background surfaces. Window outlines, keyword underline reveals and one short source-to-result indicator add motion before a stable hold. Process rows use compact spacing and separate emphasis surfaces; a drawing region remains reserved below them. The source video is never recolored by the theme.
+
 The repository contains the Skill, planner, renderers, tests and reproducible examples. Private source media and local job outputs are not redistributed without explicit authorization.
 
 ## Captions and camera

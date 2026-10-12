@@ -6,4 +6,5 @@ export type IllustrationProps = {
   outcome?: string;
   ink?: string;
   normalized?: boolean;
+  actionProgress?: number;
 };

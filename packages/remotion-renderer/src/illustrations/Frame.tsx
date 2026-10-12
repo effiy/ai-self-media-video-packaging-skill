@@ -8,7 +8,7 @@ const normalizedPaths = (children: ReactNode): ReactNode => Children.map(childre
     ...(child.props.children ? {children: normalizedPaths(child.props.children)} : {})});
 });
 
-export const Frame = ({progress, accent, children, ink = '#252933', normalized = false}: IllustrationProps & {children: ReactNode}) => {
+export const Frame = ({progress, accent, children, ink = '#252933', normalized = false, overlay}: IllustrationProps & {children: ReactNode; overlay?: ReactNode}) => {
   const p = Math.max(0, Math.min(1, progress));
   return (
     <svg viewBox="0 0 640 360" width="100%" height="100%" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -24,6 +24,7 @@ export const Frame = ({progress, accent, children, ink = '#252933', normalized =
         {normalized ? normalizedPaths(children) : children}
       </g>
       <circle cx="585" cy="48" r={10 + p * 9} fill={accent} opacity={0.55 + p * 0.45} />
+      {overlay}
     </svg>
   );
 };

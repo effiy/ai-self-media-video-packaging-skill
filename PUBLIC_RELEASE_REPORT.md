@@ -1,4 +1,14 @@
-# Version 0.5.0 verification
+# Version 0.6.0 verification
+
+## Current refinements
+
+- Added frame-driven keyword markers, presenter-window border drawing, and a one-pass source-to-result indicator in the three device/document diagrams. Motion settles into a readable hold.
+- Refined process row spacing, emphasis surfaces, drawing annotations and header contrast. Purple/cyan remain the primary roles, with a restrained warm result/closing accent in both styles. Typography colors pass 4.5:1 contrast checks on stable canvas and panel surfaces.
+- 116 tests in 17 files passed. Current real and synthetic preview outputs pass full decode and black-frame checks; source color and the single continuous audio track are preserved.
+- Real preview SHA-256: `79A53894D87D98ACF1324CA325337283120CCCDEFFA36C821EE739D07C28B8C0`.
+- Visual samples are engineering review. Full continuous playback and user acceptance are recorded separately.
+
+## Previous version 0.5.0 verification
 
 ## Current additions
 
