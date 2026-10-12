@@ -6,7 +6,7 @@
 
 ```bash
 npx tsx scripts/make-current-demo.ts
-npm run verify:lite -- .tmp/current-demo-source/input.mp4 examples/current-demo/input.srt .tmp/current-demo-render
+npm run verify:lite -- .tmp/current-demo-source/input.mp4 examples/current-demo/input.srt .tmp/current-demo-render examples/current-demo/direction.json
 ```
 
 生成标题、侧卡、流程三种版式截图，dark/paper两种配色截图、测试MP4与检查记录。第二次运行请更换输出目录；工具不会覆盖已有测试视频。

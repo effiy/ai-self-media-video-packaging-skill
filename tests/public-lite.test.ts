@@ -7,6 +7,7 @@ import {liteCameraScale, liteFlowFontSize} from '../packages/remotion-renderer/s
 import {buildCompositionPlan} from '../packages/remotion-renderer/src/VideoPackaging';
 import {generateHyperFramesProject} from '../packages/hyperframes-adapter/src/generate';
 import {selectRepresentativeBeats} from '../scripts/lib/artifact-qa';
+import {presenterRectAt} from '../packages/remotion-renderer/src/EditorialPresenterVideo';
 
 const input = {
   id: 'public-test', title: 'Public test', edition: 'public-lite' as const,
@@ -16,6 +17,30 @@ const input = {
 };
 
 describe('public-lite product boundary', () => {
+  it('rejects directed claims absent from the supplied source', () => {
+    expect(() => planStoryboard({...input, litePresenter: true, liteDirectionByCue: {1: {mode: 'hero', lines: ['不存在的业务结论']}}})).toThrow(/literal excerpt/);
+  });
+  it('moves one presenter continuously across scene boundaries and supports deterministic seeks', () => {
+    const plan = planStoryboard({...input, litePresenter: true});
+    const atStart = presenterRectAt(plan, 0);
+    expect(atStart.w).toBe(1920);
+    const settled = presenterRectAt(plan, 110);
+    expect(settled.w).toBe(760);
+    const boundary = presenterRectAt(plan, 120);
+    expect(boundary).toEqual(settled);
+    for (const f of [135, 125, 239, 120, 135]) {
+      const rect = presenterRectAt(plan, f);
+      expect(rect).toEqual(presenterRectAt(plan, f));
+      expect(rect.x).toBeGreaterThanOrEqual(0);
+      expect(rect.x + rect.w).toBeLessThanOrEqual(1920);
+      expect(rect.y + rect.h).toBeLessThanOrEqual(886);
+    }
+    expect(buildCompositionPlan({storyboard: plan}).videoTracks).toHaveLength(1);
+  });
+  it('does not enable presenter windows in SRT-only transparent output', () => {
+    const plan = planStoryboard({...input, litePresenter: true});
+    expect(() => buildCompositionPlan({storyboard: plan, overlayOnly: true})).toThrow(/composite/);
+  });
   it('preserves short mixed-language headlines and never slices an English word', () => {
     const headline = '这个开发助手现在可以连接你的iPhone';
     const plan = planStoryboard({...input, cues: [{index: 1, start: 0, end: 4, text: headline}], probe: {...input.probe, duration: 4}});

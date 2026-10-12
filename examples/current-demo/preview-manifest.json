@@ -1,35 +1,37 @@
 {
-  "layouts": [
-    "title",
-    "card",
-    "flow"
-  ],
-  "images": [
-    {
-      "sha256": "caac5ff39c8e03814fba95b0d36987cbc13c4e7b9d9be95fda86b972f5533c96",
-      "file": "docs/assets/current-demo/title.png"
-    },
-    {
-      "sha256": "86551f47b5cdfdde8b4121d9bd19cf141c69239b40a094d9e12420996faad055",
-      "file": "docs/assets/current-demo/card.png"
-    },
-    {
-      "sha256": "1e8fed2e046aa87d57dea74f72f518f1c5764335288f9098adf0de167b847459",
-      "file": "docs/assets/current-demo/flow.png"
-    },
-    {
-      "sha256": "c590d67695104ef1ce448408d3fd4397d09cf92bfad3b3a9ed399e8fe0ff7b23",
-      "file": "docs/assets/current-demo/paper.png"
-    }
-  ],
+  "blackFrames": [],
   "continuousPlaybackReviewed": false,
   "duration": 8,
-  "fullDecode": "PASS",
   "styles": [
     "dark",
     "paper"
   ],
-  "blackFrames": [],
+  "fps": 30,
+  "version": "0.4.0",
   "kind": "synthetic-renderer-example",
-  "fps": 30
+  "presenter": "single-geometric-stand-in",
+  "images": [
+    {
+      "file": "docs/assets/current-demo/title.png",
+      "sha256": "591934574cacbf9f8b74f553ee8d4a014180b958750bf11470790956c5372ae7"
+    },
+    {
+      "file": "docs/assets/current-demo/card.png",
+      "sha256": "d22b286270d723bb2d7175d01351d87b7e53c6459be9ae67f60f33f237b7633e"
+    },
+    {
+      "file": "docs/assets/current-demo/flow.png",
+      "sha256": "fc74bd567ad9efd014027ead242de14a5da1503bbde76701e06989790f76bec0"
+    },
+    {
+      "file": "docs/assets/current-demo/paper.png",
+      "sha256": "f5e6d935573b9cb0440575ed72abe21e198db54da20b68025225df4ea20f7297"
+    }
+  ],
+  "fullDecode": "PASS",
+  "layouts": [
+    "title",
+    "card",
+    "flow"
+  ]
 }

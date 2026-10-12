@@ -31,6 +31,9 @@ export const validateDirectorPlan = (storyboard: Storyboard): DirectorIssue[] =>
     const expectedPalette = storyboard.publicStyle === 'paper' ? 'editorial-cream' : 'deep-ocean';
     return storyboard.beats.flatMap((beat): DirectorIssue[] => {
       const issues: DirectorIssue[] = [];
+      if (beat.liteDirection && [...beat.liteDirection.lines, beat.liteDirection.eyebrow ?? ''].some((copy) => copy && !beat.text.includes(copy))) {
+        issues.push({code: 'content-contract', beatId: beat.id, message: 'Directed emphasis must use literal excerpts of the current source beat'});
+      }
       if (!beat.liteLayout || beat.illustration || beat.evidence || beat.palette !== expectedPalette || beat.structure !== 'thesis-and-proof') {
         issues.push({code: 'content-contract', beatId: beat.id, message: 'Public-lite requires a basic layout and a single selected palette; advanced assets are not supported'});
       }

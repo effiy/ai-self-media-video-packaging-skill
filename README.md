@@ -8,13 +8,13 @@
 |---|---|
 |配色|dark 深色、paper 浅色；每条视频保持统一风格|
 |排版|title 开场标题、card 侧边信息卡、flow 两至三个原稿条目的展示|
-|真人镜头|可选1.06倍轻推近与回落，默认不缩放|
-|动效|淡入、轻位移、基础错峰|
+|真人镜头|一个连续人物画面在全幅、左右分栏与单窗之间收放；可选1.06倍轻推近|
+|动效|标题逐行遮罩揭示、关键词强调、图文分栏、单窗收放、条目错峰与阅读停留|
 |交付检查|字幕、安全区、连续原声、完整解码、黑帧和文件哈希|
 
 输入采用已经剪好的视频与准确、同步的 SRT。项目不会自动修正口误，也不会根据零散词语编造数字、操作步骤或结论。
 
-当前 CLI 使用三版式工作流，内部标识为 `public-lite`。已有 V2 工程保留读取兼容；下面的当前示例与 V2 案例分别标明来源。
+当前 CLI 使用三版式工作流，内部标识为 `public-lite`。v0.4开始支持单窗人物构图；已有V2工程与旧三版式工程保持读取兼容。
 
 ## 前期素材准备
 
@@ -56,7 +56,9 @@ npm run package-video -- --video INPUT.mp4 --srt INPUT.srt --out RUN --output-mo
 npm run package-video -- --srt INPUT.srt --out RUN --output-mode overlay --width 1920 --height 1080 --fps 30
 ```
 
-所有阶段可用 `--style paper`。需要真人缩放时，在合成MP4的每条命令中添加 `--presenter-motion subtle`，默认 `off`。透明输出不包含真人原片，所以不支持这个参数。当前工作流使用Remotion；HyperFrames适配器用于维护已有V2工程。
+所有阶段可用 `--style paper`。合成MP4默认使用 `--presenter-layout single`，人物以唯一连续视频参与构图；`--presenter-layout original`保留原有侧卡方式。需要全幅画面的轻推近时，添加 `--presenter-motion subtle`，默认 `off`。透明输出只支持 `original`，不包含真人原片。当前工作流使用Remotion；HyperFrames适配器用于维护已有V2工程。
+
+Agent应先逐句分析语义，并用 `--direction DIRECTION.json` 提炼原句关键词与构图意图。该文件按SRT序号指定 `mode`、`lines`、可选 `eyebrow` 和 `highlight`，每个上屏词必须原样出现在对应原句中。它只描述展示方式，不改字幕、原声或源视频。示例见 [direction.json](examples/current-demo/direction.json)。所有审核阶段保持相同输入和参数。
 
 ## 检查与限制
 
@@ -69,7 +71,7 @@ npm run verify:public
 
 检查源文件哈希、文字与脸部安全区、字幕、首尾和转场、完整解码、黑帧与输出哈希。抽帧、构建成功和解码通过都不能替代完整播放或用户验收。
 
-居中人物使用左右安全区，底部18%预留字幕；全屏标题与流程使用完全不透明底色。三种版式不需要凑八种结构，长片也应按语义使用基础版式。两套风格逐片统一，标题取原稿词语，超长句保持完整字幕并缩短强调词。
+居中人物使用左右安全区，底部18%预留字幕；单窗模式裁掉源字幕区域并从SRT完整重绘一次，文字与人物分栏。原始构图模式的全屏标题与流程使用不透明底色。三种语义版式不需要凑八种结构，长片也应按语义编排。两套风格逐片统一，标题取原稿关键词，超长句保留完整字幕。
 
 详细规则：[功能与限制](references/public-lite.md)、[审核阶段](references/gates.md)、[画面检查](references/visual-quality-gates.md)。
 

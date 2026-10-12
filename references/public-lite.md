@@ -2,20 +2,22 @@
 
 New CLI jobs set `edition: public-lite`. Source timing, continuous voice, caption modes, face protection and artifact QA remain intact. Three layouts are available: `title` (one headline on an opaque background), `card` (one compact presenter-safe side card), and `flow` (two or three literal source items in simple cards, without invented steps).
 
-Styles are `dark` and `paper`, fixed for the entire video. Layered art direction, flexible split screens, offset double windows, presenter-window handoffs, 3D layouts, integrated drawings and complex choreography stay outside the current public product.
+Styles are `dark` and `paper`, fixed for the entire video. Single-presenter editorial composition supports full-frame emphasis, left/right split layouts and a bounded single window with frame-driven transitions. Duplicate presenter windows, multi-window choreography, 3D layouts and a full advanced template library are outside this workflow.
 
 The repository contains the Skill, planner, renderers, tests and reproducible examples. Private source media and local job outputs are not redistributed without explicit authorization.
 
 ## Captions and camera
 
-Default camera `off` leaves source framing unchanged. `--presenter-motion subtle` on composite MP4 applies a 1.06× deterministic focus pulse to side-card beats, returning to 1× at both rounded beat boundaries. Short beats remain still. There is one continuous video/audio track; no blending of differently scaled body images.
+`--presenter-layout single` is the v0.4 composite default; `original` preserves the earlier side-card layout. The single media element remains mounted for the entire timeline while its containing rectangle changes. `--presenter-motion subtle` adds a bounded 1.06× focus pulse to full-frame emphasis scenes. There is one continuous video/audio track; no duplicate or blended presenter images.
 
-With `burned-in`, source captions are clipped during the enabled camera treatment and redrawn once from the current SRT. Opaque title/flow scenes also redraw covered captions in composite output. Generated captions explicitly use the SRT; `none` adds none. Confirm SRT accuracy and alignment before rendering. Reserve the bottom 18%. Source movement is rejected for transparent output.
+Single-presenter composition crops the source caption reserve and redraws all captions once from the current SRT. In `original` mode, covered captions are redrawn only as needed. Generated captions explicitly use the SRT; `none` adds none. Confirm SRT accuracy and alignment before rendering. Reserve the bottom 18%. Source movement and presenter windows are rejected for transparent output.
+
+The Agent should write a source-grounded direction file after sentence-level analysis. `--direction FILE.json` maps SRT indices to `mode` (`hero`, `split`, `focus`, `process`, `closing`), `lines` (one to three literal source excerpts), optional `eyebrow` and zero-based `highlight`. The planner rejects text absent from that cue; cues longer than six seconds should use directions that fit their split source segments. A direction controls presentation, without changing the continuous source timing.
 
 New public-lite jobs require Remotion. Historical V2 storyboards without the `edition` field retain their original renderer; capabilities already published cannot be recalled from Git history. The HyperFrames adapter remains for those historical inputs, without silently dropping public-lite features.
 
 ## QA
 
-Eight review frames sample the timeline rather than requiring eight structures. Inspect every layout actually used, first/last frames, movement entry/peak/return, transitions, complete caption text and original face color. Technical checks and full decode do not prove full playback review or user acceptance.
+Eight review frames sample the timeline rather than requiring eight structures. Inspect every layout and presenter treatment actually used at entry, hold and exit, first/last frames, movement, transitions, complete caption text and original face color. Technical checks and full decode do not prove full playback review or user acceptance.
 
-For an engineering check use `npm run make:synthetic` then `npm run verify:lite`. A private comparison can use `npm run verify:lite -- INPUT.mp4 INPUT.srt OUTPUT` with a new local output folder. The helper renders a real dark-style video, both-style review stills, full decode, black-frame detection and a contact sheet. Outputs default to ignored `.tmp/`; do not commit private input media or comparison frames. Engineering tests do not replace production job approvals. Public-lite currently supports 16:9 horizontal input only.
+For an engineering check use the reproducible [current example](../examples/current-demo/README.md). A private preview can use `npm run verify:lite -- INPUT.mp4 INPUT.srt OUTPUT DIRECTION.json` with a new local output folder. The helper renders a dark-style video, both-style review stills, each beat at 12/60/90 percent, full decode, black-frame detection and a contact sheet. Outputs default to ignored `.tmp/`; do not commit private input media or frames. Engineering tests do not replace production job approvals. The current workflow supports 16:9 horizontal input only.

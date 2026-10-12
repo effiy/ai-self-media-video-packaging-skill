@@ -22,9 +22,10 @@ const prepare = spawnSync('ffmpeg', ['-v', 'error', '-y', '-i', source, '-map', 
   '-c:v', 'libx264', '-crf', '18', '-preset', 'fast', '-c:a', 'copy', join(publicDir, 'input.mp4')], {encoding: 'utf8', windowsHide: true});
 if (prepare.status !== 0) throw new Error(prepare.stderr);
 const cues = parseSrt(readFileSync(srt, 'utf8'));
+const liteDirectionByCue = process.argv[5] ? JSON.parse(readFileSync(resolve(process.argv[5]), 'utf8')) : undefined;
 const probe = probeMedia(source);
 const plan = planStoryboard({id: 'public-lite-check', title: 'Public-lite verification', cues, probe,
-  sourceVideo: 'input.mp4', sourceSrt: 'input.srt', captionsMode: 'burned-in', edition: 'public-lite', publicStyle: 'dark', liteCamera: true});
+  sourceVideo: 'input.mp4', sourceSrt: 'input.srt', captionsMode: 'burned-in', edition: 'public-lite', publicStyle: 'dark', liteCamera: true, litePresenter: true, liteDirectionByCue});
 assertDirectorPlan(plan);
 writeFileSync(join(out, 'storyboard.json'), JSON.stringify(plan, null, 2));
 const inputProps = {storyboard: plan, cues, overlayOnly: false};
@@ -43,10 +44,15 @@ try {
       frame: Math.min(composition.durationInFrames - 1, Math.round((beat.start + (beat.end - beat.start) * .6) * plan.fps)),
       output: join(out, `layout-${layout}.png`), imageFormat: 'png', chromiumOptions, puppeteerInstance: browser});
   }
+  for (const beat of plan.beats) {
+    for (const phase of [.12, .6, .9]) await renderStill({serveUrl, composition, inputProps,
+      frame: Math.min(composition.durationInFrames - 1, Math.round((beat.start + (beat.end - beat.start) * phase) * plan.fps)),
+      output: join(out, `${beat.id}-${phase}.png`), imageFormat: 'png', chromiumOptions, puppeteerInstance: browser});
+  }
   for (const frame of [0, composition.durationInFrames - 1]) await renderStill({serveUrl, composition, inputProps, frame,
     output: join(out, `edge-${frame}.png`), imageFormat: 'png', chromiumOptions, puppeteerInstance: browser});
   const paper = planStoryboard({id: 'public-paper-check', title: 'Public paper verification', cues, probe,
-    sourceVideo: 'input.mp4', captionsMode: 'burned-in', edition: 'public-lite', publicStyle: 'paper', liteCamera: true});
+    sourceVideo: 'input.mp4', captionsMode: 'burned-in', edition: 'public-lite', publicStyle: 'paper', liteCamera: true, litePresenter: true, liteDirectionByCue});
   const paperProps = {storyboard: paper, cues, overlayOnly: false};
   const paperComposition = await selectComposition({serveUrl, id: 'VideoPackaging', inputProps: paperProps, puppeteerInstance: browser});
   const paperBeat = paper.beats.find((beat) => beat.liteLayout === 'card') ?? paper.beats[0];

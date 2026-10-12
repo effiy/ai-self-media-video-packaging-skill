@@ -2,14 +2,15 @@
 
 These checks apply to every real invocation. Passing unit tests, typecheck, build, or render is not visual acceptance.
 
-## 1. Binary presentation mode
+## 1. Presentation mode
 
-Every beat declares exactly one visual mode:
+Original-layout beats declare exactly one of the first two modes. Single-presenter jobs use the third mode:
 
 - **Presenter-safe:** the live presenter remains visible. Foreground content is restricted to x=5%–32% or x=68%–95%; center x=35%–65% is completely clear; the lower 18% is reserved for burned-in captions.
 - **Opaque full-screen:** the graphic covers the full 1920×1080 canvas with an opaque background. It may use the center because the presenter is intentionally replaced for that beat.
+- **Single-presenter composition:** one persistent source video is reframed into a full-frame or single-window rectangle. Protect the actual forehead, face and chin inside that rectangle; typography occupies separate regions. Cropping removes the old subtitle reserve and matching SRT captions are redrawn once. Inspect moving boundaries at entry, hold and exit, without duplicate presenter layers.
 
-Reject any translucent hybrid. A card, SVG route, illustration, glow, title, or diagram that enters the presenter lane while the face remains visible is a failure. If the center is needed, use opaque full-screen.
+Reject graphic overlap with a visible face. In original mode, foreground graphics stay outside the center lane; if the center is needed, use opaque full-screen. In single-presenter composition, reserve the relocated person's actual region rather than assuming the face remains at the original center. Keep the bottom 18% for captions in either mode.
 
 ## 2. Side-card density
 

@@ -50,6 +50,10 @@ export const planPublicLite = (input: PlannerInput) => {
     const layout = index === 0 ? 'title' : parts.length >= 2 && parts.length <= 3 && cue.end - cue.start >= 2 ? 'flow' : 'card';
     if (layout === 'card') side = side === 'left' ? 'right' : 'left';
     const title = heading(parts[0] ?? cue.text);
+    const direction = input.liteDirectionByCue?.[cue.index];
+    if (direction && [...direction.lines, direction.eyebrow ?? ''].some((copy) => copy && !cue.text.includes(copy))) {
+      throw new Error(`Director copy must be a literal excerpt of source cue ${cue.index}`);
+    }
     return {
       id: `beat-${String(index + 1).padStart(2, '0')}`,
       start: index === 0 ? 0 : cue.start,
@@ -60,10 +64,12 @@ export const planPublicLite = (input: PlannerInput) => {
       directorRole: index === 0 ? 'hook' : 'definition',
       reason: 'Public-lite: literal source copy, basic layout; no invented facts or stages.',
       liteLayout: layout, liteItems: layout === 'flow' ? parts : [],
+      ...(direction ? {liteDirection: direction} : {}),
     };
   });
   return StoryboardSchema.parse({
     version: '2.0', edition: 'public-lite', publicStyle: input.publicStyle ?? 'dark', liteCamera: input.liteCamera ?? false,
+    litePresenter: input.litePresenter ?? false,
     id: input.id, title: input.title, duration: Number(input.probe.duration.toFixed(3)),
     fps: Math.round(input.probe.video.fps || 30), width: input.probe.video.width, height: input.probe.video.height,
     captionsMode: input.captionsMode,

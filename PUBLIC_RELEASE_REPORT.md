@@ -1,4 +1,19 @@
-# Version 0.3.0 verification
+# Version 0.4.0 verification
+
+## Current behavior
+
+Composite jobs use one continuous presenter video with full-frame emphasis, single-window left/right editorial composition, source-excerpt typography and frame-driven layout transitions. Source captions are redrawn once after cropping the original caption reserve. Original-layout jobs and historical V2 inputs remain readable. Transparent output does not support presenter windows.
+
+## Current verification
+
+- 112 tests in 17 files and TypeScript checks passed.
+- Reproducible 8-second geometric example covers title/card/flow and dark/paper screenshots; no real person is represented by the synthetic source.
+- A 14.5-second local talking-head preview uses source-grounded emphasis and seven timed beats. Output is H.264/AAC, 1920x1080, 30fps, 434 video frames, one audio track.
+- Preview SHA-256: `2DE3B351B8DC443F4EC646D933C749D3F140A1C2E42695F2A7FD43C621F256D0`.
+- Full decode and black-frame checks passed. Scene entry/hold/exit frames and representative timeline frames were inspected. Original media and local preview files remain outside the public repository.
+- Full continuous playback and user acceptance are not claimed.
+
+## Previous version 0.3.0 verification
 
 ## Current scope
 

@@ -20,6 +20,8 @@ export type PlannerInput = {
   edition?: 'public-lite';
   publicStyle?: 'dark' | 'paper';
   liteCamera?: boolean;
+  litePresenter?: boolean;
+  liteDirectionByCue?: Record<number, NonNullable<StoryboardBeat['liteDirection']>>;
 };
 
 const overlayText = (text: string): string => {

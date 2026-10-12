@@ -3,6 +3,7 @@ import {Video} from '@remotion/media';
 import {AbsoluteFill, Sequence, staticFile, useCurrentFrame} from 'remotion';
 import type {Storyboard, StoryboardBeat} from '../../core/src/schema';
 import type {SrtCue} from '../../core/src/types';
+import {EditorialPresenterVideo} from './EditorialPresenterVideo';
 
 const clamp = (n: number) => Math.max(0, Math.min(1, n));
 const ease = (n: number) => {const t = clamp(n); return t * t * (3 - 2 * t);};
@@ -58,6 +59,8 @@ export const LiteBeat = ({beat, fps, paper}: {beat: StoryboardBeat; fps: number;
 
 export const PublicLiteVideo = ({storyboard: s, cues, overlayOnly}: {storyboard: Storyboard; cues: SrtCue[]; overlayOnly: boolean}): ReactElement => {
   const frame = useCurrentFrame(); const c = palette(s.publicStyle === 'paper'); const active = activeAt(s, frame);
+  if (s.litePresenter && !overlayOnly) return <EditorialPresenterVideo storyboard={s} cues={cues}/>;
+  if (s.litePresenter && overlayOnly) throw new Error('Presenter layout requires composite output');
   if (overlayOnly && s.liteCamera) throw new Error('Source camera motion requires composite output');
   const redrawBurned = !overlayOnly && s.captionsMode === 'burned-in' && (s.liteCamera || active?.liteLayout === 'title' || active?.liteLayout === 'flow');
   if (redrawBurned && !cues.length) throw new Error('Public-lite composite requires SRT cues to preserve covered burned-in subtitles');

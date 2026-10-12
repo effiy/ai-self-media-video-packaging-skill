@@ -14,7 +14,7 @@ export type VideoPackagingProps = {
   cues?: SrtCue[];
 };
 export const buildCompositionPlan = ({storyboard, overlayOnly = false, cues = []}: VideoPackagingProps) => {
-  if (overlayOnly && storyboard.liteCamera) throw new Error('Source camera motion requires composite output');
+  if (overlayOnly && (storyboard.liteCamera || storyboard.litePresenter)) throw new Error('Source camera motion requires composite output');
   const durationInFrames = Math.ceil(storyboard.duration * storyboard.fps);
   return {
     durationInFrames,

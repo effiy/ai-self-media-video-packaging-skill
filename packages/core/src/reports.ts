@@ -23,6 +23,7 @@ export const gateABrief = ({storyboard, probe, cues}: {storyboard: Storyboard; p
 - Captions mode: ${storyboard.captionsMode}
 - Edition: ${storyboard.edition ?? 'historical-v2'}
 - Public style: ${storyboard.publicStyle ?? 'historical palettes'}
+- Presenter layout: ${storyboard.litePresenter ? 'single continuous presenter, semantic layout changes' : 'original framing'}
 - Basic camera: ${storyboard.liteCamera ? 'subtle, maximum 1.06; burned-in captions redrawn from the supplied SRT' : 'off'}
 - Planned visual beats: ${storyboard.beats.length}
 - Distinct semantic structures: ${new Set(storyboard.beats.map((beat) => beat.structure)).size}

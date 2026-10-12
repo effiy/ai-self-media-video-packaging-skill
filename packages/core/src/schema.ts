@@ -69,6 +69,12 @@ const beatSchema = z.object({
     .optional(),
   liteLayout: z.enum(['title', 'card', 'flow']).optional(),
   liteItems: z.array(z.string().trim().min(1).max(80)).max(3).optional(),
+  liteDirection: z.object({
+    mode: z.enum(['hero', 'split', 'focus', 'process', 'closing']),
+    lines: z.array(z.string().trim().min(1).max(24)).min(1).max(3),
+    eyebrow: z.string().trim().max(24).optional(),
+    highlight: z.number().int().min(0).max(2).optional(),
+  }).optional(),
 }).superRefine((beat, context) => {
   if (beat.content.structure !== beat.structure) {
     context.addIssue({
@@ -91,6 +97,7 @@ export const StoryboardSchema = z.object({
   edition: z.literal('public-lite').optional(),
   publicStyle: z.enum(['dark', 'paper']).optional(),
   liteCamera: z.boolean().optional(),
+  litePresenter: z.boolean().optional(),
   source: z.object({video: z.string().min(1), srt: z.string().optional()}),
   theme: z.object({background: color, foreground: color, accent: color}),
   beats: z.array(beatSchema).min(1),
