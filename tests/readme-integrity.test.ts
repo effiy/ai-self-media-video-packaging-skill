@@ -29,7 +29,7 @@ describe('public README evidence', () => {
 
   it('keeps the approved business WeChat and QR code together at the end', () => {
     const lines = read('README.md').toString('utf8').trimEnd().split(/\r?\n/).filter(Boolean);
-    expect(lines.at(-2)).toBe('感兴趣的朋友欢迎咨询业务微信：nanaya09');
+    expect(lines.at(-2)).toBe('感兴趣的朋友欢迎咨询业务微信：nanaya093');
     expect(lines.at(-1)).toBe('<img src="docs/assets/contact/nana-wechat-qr.jpg" alt="Nana 业务微信二维码" width="320">');
   });
 });
