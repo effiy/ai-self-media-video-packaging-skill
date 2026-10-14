@@ -100,6 +100,6 @@ npm run verify:public
 
 此图由当前代码与示例文案生成。首页不再使用旧V2案例截图；真人素材与试看片留在本地，上面的公开示例明确使用合成画面。
 
-感兴趣的朋友欢迎咨询业务微信：nanaya093
+如果有更多AI学习需要，或AI自媒体项目陪跑服务，欢迎咨询业务微信：nanaya093
 
 <img src="docs/assets/contact/nana-wechat-qr.jpg" alt="Nana 业务微信二维码" width="320">
