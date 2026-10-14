@@ -89,7 +89,7 @@ describe('public Skill contract', () => {
 
   it('shows the authorized business WeChat QR code after the contact line', () => {
     const qrPath = 'docs/assets/contact/nana-wechat-qr.jpg';
-    expect(readme).toMatch(/感兴趣的朋友欢迎咨询业务微信：nanaya093\s+<img src="docs\/assets\/contact\/nana-wechat-qr\.jpg" alt="Nana 业务微信二维码" width="320">/);
+    expect(readme).toMatch(/感兴趣的朋友欢迎咨询业务微信：nanaya09\s+<img src="docs\/assets\/contact\/nana-wechat-qr\.jpg" alt="Nana 业务微信二维码" width="320">/);
     expect(existsSync(qrPath)).toBe(true);
     expect(statSync(qrPath).size).toBeGreaterThan(100_000);
   });
